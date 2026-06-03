@@ -1,0 +1,51 @@
+
+
+import com.android.build.gradle.LibraryExtension
+import com.yournote.app.configureGradleManagedDevices
+import com.yournote.app.libs
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
+
+class AndroidFeatureConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            pluginManager.apply {
+                apply("com.yournote.android.library")
+                apply("com.yournote.android.library.compose")
+                apply("com.yournote.android.hilt")
+                apply("org.jetbrains.kotlin.plugin.serialization")
+
+            }
+            extensions.configure<LibraryExtension> {
+                defaultConfig {
+                    testInstrumentationRunner =
+                        "com.yournote.testing.TestRunner"
+                }
+                testOptions.animationsDisabled = true
+                configureGradleManagedDevices(this)
+            }
+
+            dependencies {
+                add("implementation", project(":modules:ui"))
+                add("implementation", project(":modules:designsystem"))
+                add("implementation", project(":modules:data"))
+                add("implementation", project(":modules:domain"))
+                add("testImplementation", project(":modules:testing"))
+                add("androidTestImplementation", project(":modules:testing"))
+
+
+                add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
+
+                add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
+
+                add("implementation",libs.findLibrary("kotlinx.serialization.json").get())
+
+            }
+        }
+    }
+}

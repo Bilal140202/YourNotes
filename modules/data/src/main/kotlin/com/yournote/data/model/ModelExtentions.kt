@@ -1,0 +1,311 @@
+package com.yournote.data.model
+
+import com.yournote.database.model.LabelEntity
+import com.yournote.database.model.NoteCheckEntity
+import com.yournote.database.model.NoteDrawingEntity
+import com.yournote.database.model.NoteEntity
+import com.yournote.database.model.NoteImageEntity
+import com.yournote.database.model.NoteLabelEntity
+import com.yournote.database.model.NotePadEntity
+import com.yournote.database.model.NoteVoiceEntity
+import com.yournote.database.model.NotificationEntity
+import com.yournote.model.Converter
+import com.yournote.model.IntervalEnd
+import com.yournote.model.Label
+import com.yournote.model.Note
+import com.yournote.model.NoteCheck
+import com.yournote.model.NoteDrawing
+import com.yournote.model.NoteImage
+import com.yournote.model.NoteLabel
+import com.yournote.model.NotePad
+import com.yournote.model.NoteVoice
+import com.yournote.model.NotificationInterval
+import com.yournote.model.NotificationPlace
+import com.yournote.model.NotificationUiState
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
+
+fun NotePadEntity.toNotePad() = NotePad(
+    note = noteEntity.toNote(),
+    notification = notification?.toNotificationUiState(),
+    images = images.map { it.toNoteImage() },
+    voices = voices.map { it.toNoteVoice() },
+    checks = checks.map { it.toNoteCheck() },
+    drawings = drawings.map { it.toDrawing() },
+    labels = labels.map { it.toLabel() },
+)
+
+fun NoteDrawingEntity.toDrawing(): NoteDrawing {
+    return NoteDrawing(
+        id = id!!,
+        noteId = noteId,
+        drawingPaths = paths?.let { Converter.toPath(it) } ?: emptyList(),
+
+    )
+}
+
+fun NoteDrawing.toEntity(): NoteDrawingEntity {
+    return NoteDrawingEntity(
+        id = id.check(),
+        noteId = noteId,
+        paths = if (drawingPaths.isEmpty()) {
+            null
+        } else {
+            Converter.pathToString(drawingPaths)
+        },
+    )
+}
+
+fun LabelEntity.toLabel() = Label(id!!, name)
+fun Label.toLabelEntity() = LabelEntity(id.check(), name)
+
+fun NoteCheckEntity.toNoteCheck() = NoteCheck(
+    id = id!!,
+    noteId = noteId,
+    content = content,
+    isCheck = isCheck,
+)
+
+fun NoteCheck.toNoteCheckEntity() = NoteCheckEntity(id.check(), noteId, content, isCheck)
+
+fun Note.asEntity() = NoteEntity(
+    id.check(),
+    title,
+    detail,
+    editDate,
+    isCheck,
+    color,
+    background,
+    isPin,
+    noteType,
+)
+
+fun NoteEntity.toNote() = Note(
+    id!!,
+    title,
+    detail,
+    editDate,
+    isCheck,
+    color,
+    background,
+    isPin,
+    noteType,
+)
+
+fun NoteImage.toNoteImageEntity() = NoteImageEntity(id, noteId)
+fun NoteImageEntity.toNoteImage() =
+    NoteImage(id = id, noteId = noteId)
+
+fun NoteLabelEntity.toNoteLabel() = NoteLabel(noteId, labelId)
+fun NoteLabel.toNoteLabelEntity() = NoteLabelEntity(noteId, labelId)
+
+fun NoteVoice.toNoteVoiceEntity() = NoteVoiceEntity(id, noteId, path)
+fun NoteVoiceEntity.toNoteVoice() = NoteVoice(
+    id,
+    noteId,
+    voiceName,
+    length = 89, // kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
+)
+
+// --- Mapper from NotificationUiState to NotificationEntity ---
+@OptIn(ExperimentalTime::class)
+fun NotificationUiState.toEntity(): NotificationEntity {
+    val reminderTimestamp =
+        this.currentDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+
+    val placeType: Int
+    val customPlaceName: String?
+    when (this.currentPlace) {
+        NotificationPlace.Home -> {
+            placeType = 0
+            customPlaceName = null
+        }
+
+        NotificationPlace.Work -> {
+            placeType = 1
+            customPlaceName = null
+        }
+
+        NotificationPlace.School -> {
+            placeType = 2
+            customPlaceName = null
+        }
+
+        is NotificationPlace.Edit -> {
+            placeType = 3
+            customPlaceName = (this.currentPlace as NotificationPlace.Edit).place
+        }
+
+        null -> { // Handle cases where place might not be set, map to a default or error
+            placeType = -1 // Or some other indicator for "no place" if needed
+            customPlaceName = null
+        }
+    }
+
+    var typeIndexValue = 0
+    var intervalValueStr = "1"
+    var weeklyDaysStr: String? = null
+    var monthlySameDayBool: Boolean? = null
+    var intervalEndTypeIndexValue = 0
+    var endDateEpochDayValue: Long? = null
+    var numberOfTimesValue: Int? = null
+
+    when (val interval = this.currentInterval) {
+        is NotificationInterval.DoNotRepeat -> {
+            typeIndexValue = 0
+        }
+
+        is NotificationInterval.Daily -> {
+            typeIndexValue = 1
+            intervalValueStr = interval.interval
+            when (val end = interval.intervalEnd) {
+                IntervalEnd.Forever -> intervalEndTypeIndexValue = 0
+                is IntervalEnd.EndDate -> {
+                    intervalEndTypeIndexValue = 1
+                    endDateEpochDayValue = end.date.toEpochDays().toLong()
+                }
+
+                is IntervalEnd.NumberOfTimes -> {
+                    intervalEndTypeIndexValue = 2
+                    numberOfTimesValue = end.times
+                }
+            }
+        }
+
+        is NotificationInterval.Weekly -> {
+            typeIndexValue = 2
+            intervalValueStr = interval.interval
+            weeklyDaysStr = interval.days.joinToString(",")
+            when (val end = interval.intervalEnd) {
+                IntervalEnd.Forever -> intervalEndTypeIndexValue = 0
+                is IntervalEnd.EndDate -> {
+                    intervalEndTypeIndexValue = 1
+                    endDateEpochDayValue = end.date.toEpochDays().toLong()
+                }
+
+                is IntervalEnd.NumberOfTimes -> {
+                    intervalEndTypeIndexValue = 2
+                    numberOfTimesValue = end.times
+                }
+            }
+        }
+
+        is NotificationInterval.Monthly -> {
+            typeIndexValue = 3
+            intervalValueStr = interval.interval
+            monthlySameDayBool = interval.sameDay
+            when (val end = interval.intervalEnd) {
+                IntervalEnd.Forever -> intervalEndTypeIndexValue = 0
+                is IntervalEnd.EndDate -> {
+                    intervalEndTypeIndexValue = 1
+                    endDateEpochDayValue = end.date.toEpochDays().toLong()
+                }
+
+                is IntervalEnd.NumberOfTimes -> {
+                    intervalEndTypeIndexValue = 2
+                    numberOfTimesValue = end.times
+                }
+            }
+        }
+
+        is NotificationInterval.Yearly -> {
+            typeIndexValue = 4
+            intervalValueStr = interval.interval
+            when (val end = interval.intervalEnd) {
+                IntervalEnd.Forever -> intervalEndTypeIndexValue = 0
+                is IntervalEnd.EndDate -> {
+                    intervalEndTypeIndexValue = 1
+                    endDateEpochDayValue = end.date.toEpochDays().toLong()
+                }
+
+                is IntervalEnd.NumberOfTimes -> {
+                    intervalEndTypeIndexValue = 2
+                    numberOfTimesValue = end.times
+                }
+            }
+        }
+
+        is NotificationInterval.Custom -> { // Ensure your NotificationInterval.Custom has necessary fields
+            typeIndexValue = 5
+            // Populate fields based on NotificationInterval.Custom structure
+        }
+    }
+
+    return NotificationEntity(
+        id = noteId, // Use 0 for new, or pass existing ID for updates
+        noteId = noteId,
+        reminderDateTimeStamp = reminderTimestamp,
+        placeType = placeType,
+        customPlaceName = customPlaceName,
+        typeIndex = typeIndexValue,
+        intervalValue = intervalValueStr,
+        weeklyDays = weeklyDaysStr,
+        monthlySameDay = monthlySameDayBool,
+        intervalEndTypeIndex = intervalEndTypeIndexValue,
+        endDateEpochDay = endDateEpochDayValue,
+        numberOfTimes = numberOfTimesValue,
+    )
+}
+
+// --- Mapper from NotificationEntity to NotificationUiState ---
+@OptIn(ExperimentalTime::class)
+fun NotificationEntity.toNotificationUiState(): NotificationUiState {
+    val currentDateTime = Instant.fromEpochMilliseconds(this.reminderDateTimeStamp)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+
+    val currentPlace: NotificationPlace? = when (this.placeType) {
+        0 -> NotificationPlace.Home
+        1 -> NotificationPlace.Work
+        2 -> NotificationPlace.School
+        3 -> NotificationPlace.Edit(this.customPlaceName ?: "")
+        else -> null // Or handle error/default for unknown placeType
+    }
+
+    val intervalEnd = when (this.intervalEndTypeIndex) {
+        0 -> IntervalEnd.Forever
+        1 -> IntervalEnd.EndDate(LocalDate.fromEpochDays(this.endDateEpochDay!!.toInt())) // Ensure not null
+        2 -> IntervalEnd.NumberOfTimes(this.numberOfTimes!!) // Ensure not null
+        else -> IntervalEnd.Forever // Default or error handling
+    }
+
+    val currentInterval: NotificationInterval = when (this.typeIndex) {
+        0 -> NotificationInterval.DoNotRepeat
+        1 -> NotificationInterval.Daily(
+            interval = this.intervalValue,
+            intervalEnd = intervalEnd,
+        )
+
+        2 -> NotificationInterval.Weekly(
+            interval = this.intervalValue,
+            days = this.weeklyDays?.split(',')?.mapNotNull { it.toIntOrNull() }?.toSet()
+                ?: emptySet(),
+            intervalEnd = intervalEnd,
+        )
+
+        3 -> NotificationInterval.Monthly(
+            interval = this.intervalValue,
+            sameDay = this.monthlySameDay ?: false, // Provide default if null
+            intervalEnd = intervalEnd,
+        )
+
+        4 -> NotificationInterval.Yearly(
+            interval = this.intervalValue,
+            intervalEnd = intervalEnd,
+        )
+
+        5 -> NotificationInterval.Custom // Ensure your NotificationInterval.Custom can be reconstructed
+        else -> NotificationInterval.DoNotRepeat // Default or error handling
+    }
+
+    return NotificationUiState(
+        currentDateTime = currentDateTime,
+        currentInterval = currentInterval,
+        currentPlace = currentPlace,
+    )
+}
+
+fun Long.check() = if (this == -1L) null else this

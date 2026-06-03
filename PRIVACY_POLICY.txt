@@ -1,0 +1,13 @@
+YourNotes Privacy Policy
+
+Last updated: June 2025
+
+YourNotes does not collect, store, or transmit any personal data. All notes, audio recordings, photos, drawings, and other content you create within the app are stored exclusively on your device. No data ever leaves your device.
+
+The app requires no internet permission and functions completely offline. No analytics, crash reporting, or telemetry of any kind are included.
+
+If you have any questions about this privacy policy, please contact the developer.
+
+- No data collected
+- Files stay on device
+- 100% offline
