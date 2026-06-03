@@ -117,6 +117,7 @@ fun NoteCard(
                 )
             },
             colors = CardDefaults.outlinedCardColors(containerColor = bg),
+            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 4.dp),
         ) {
             Box {
                 if (notePad.note.background != -1) {

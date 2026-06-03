@@ -8,7 +8,7 @@
     <string name="modules_designsystem_hide_checkboxes">Hide checkboxes</string>
     <string name="modules_designsystem_delete_checked_items">Delete checked items</string>
     <string name="modules_designsystem_uncheck_all_items">UnCheck all items</string>
-    <string name="modules_designsystem_subject">Subject</string>
+    <string name="modules_designsystem_subject">Start writing...</string>
     <string name="modules_designsystem_add_list_item">Add list item</string>
     <string name="modules_designsystem_checked_items">Checked Items</string>
     <string name="modules_designsystem_edited">Edited</string>
@@ -75,7 +75,8 @@
     <string name="modules_designsystem_theme">Theme</string>
     <string name="modules_designsystem_colors">Colors</string>
     <string name="modules_designsystem_rename_label_detail">" We'll delete the label and remove it from all of from all of your keep notes. Your notes won't be deleted"</string>
-    <string name="modules_designsystem_empty_notes">Empty notes</string>
+    <string name="modules_designsystem_empty_notes">Start your first note</string>
+    <string name="modules_designsystem_empty_notes_subtitle">Ideas, lists, voice memos — all offline</string>
     <string name="modules_designsystem_checked_items_value">+ %1$d checked items</string>
     <string name="modules_designsystem_rename_details">" We'll delete the label and remove it from all of from all of your keep notes. Your notes won't be deleted"</string>
     <string name="modules_designsystem_clear_canvas">Clear canvas</string>
