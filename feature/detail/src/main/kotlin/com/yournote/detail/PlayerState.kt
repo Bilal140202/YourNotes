@@ -1,0 +1,7 @@
+package com.yournote.detail
+
+data class PlayerState(
+    val currentPosition: Int = 0,
+    val isPlaying: Boolean = false,
+    val indexPlaying: Int = 0,
+)

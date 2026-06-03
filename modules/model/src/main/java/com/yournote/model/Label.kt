@@ -1,0 +1,6 @@
+package com.yournote.model
+
+data class Label(
+    val id: Long = -1,
+    val name: String,
+)

@@ -1,0 +1,10 @@
+package com.yournote.ui.state
+
+data class DateListUiState(
+    val title: String,
+    val newValue: Long = 1,
+    val value: String = "",
+    val trail: String? = null,
+    val isOpenDialog: Boolean,
+    val enable: Boolean,
+)
