@@ -112,8 +112,11 @@ fun NoteApp(
                             ?: NoteDisplayCategory(),
                         onNavigation = {
                             viewModel.setMainData(it)
-                            appState.navController.pop()
-                            //  appState.navController.navigateToMain()
+                            // Only pop if back stack has more than one entry (user is on a sub-screen)
+                            // Otherwise just update the category without popping Main
+                            if (appState.navController.size > 1) {
+                                appState.navController.pop()
+                            }
                             appState.closeDrawer()
                         },
                         navigateToLevel = {

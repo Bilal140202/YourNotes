@@ -66,8 +66,6 @@ internal class MainViewModel
         isGrid,
     ) { notepad, label, displayCategory, selectState, isGrid ->
 
-        println("notepad from combine ${notepad.size}")
-        println("selct $selectState")
         val pinNote = notepad.filter { it.note.isPin }
         val unPinNote = notepad.filter { !it.note.isPin }
         MainState.Success(
@@ -321,7 +319,10 @@ internal class MainViewModel
     fun onDeleteAlarm() {
     }
 
-    private fun getSuccess() = mainState.value as MainState.Success
+    private fun getSuccess(): MainState.Success {
+        return mainState.value as? MainState.Success
+            ?: MainState.Success()
+    }
     fun onSendNote(): NotePad {
         val notepad = getAllNotePad().first { it.note.id == getSelectState().setOfSelected.first() }
         deselectNotes()

@@ -267,9 +267,15 @@ fun NotificationEntity.toNotificationUiState(): NotificationUiState {
 
     val intervalEnd = when (this.intervalEndTypeIndex) {
         0 -> IntervalEnd.Forever
-        1 -> IntervalEnd.EndDate(LocalDate.fromEpochDays(this.endDateEpochDay!!.toInt())) // Ensure not null
-        2 -> IntervalEnd.NumberOfTimes(this.numberOfTimes!!) // Ensure not null
-        else -> IntervalEnd.Forever // Default or error handling
+        1 -> {
+            val days = this.endDateEpochDay
+            if (days != null) IntervalEnd.EndDate(LocalDate.fromEpochDays(days.toInt())) else IntervalEnd.Forever
+        }
+        2 -> {
+            val times = this.numberOfTimes
+            if (times != null) IntervalEnd.NumberOfTimes(times) else IntervalEnd.Forever
+        }
+        else -> IntervalEnd.Forever
     }
 
     val currentInterval: NotificationInterval = when (this.typeIndex) {
