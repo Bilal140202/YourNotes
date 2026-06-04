@@ -371,11 +371,11 @@ fun MainTopBar(
 
     val labelText = selectState?.setOfSelected?.size?.toString()
         ?: when (noteDisplayCategory.noteType) {
-            NoteType.NOTE -> "Note"
-            NoteType.REMINDER -> "Reminder"
+            NoteType.NOTE -> "YourNotes"
+            NoteType.REMINDER -> stringResource(Rd.string.modules_designsystem_reminders)
             NoteType.LABEL -> labelName ?: ""
-            NoteType.TRASH -> "Trash"
-            NoteType.ARCHIVE -> "Archive"
+            NoteType.TRASH -> stringResource(Rd.string.modules_designsystem_trash)
+            NoteType.ARCHIVE -> stringResource(Rd.string.modules_designsystem_archive)
         }
     val color = if (selectState != null) {
         TopAppBarDefaults.topAppBarColors(

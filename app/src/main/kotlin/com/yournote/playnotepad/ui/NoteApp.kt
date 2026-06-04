@@ -13,16 +13,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration.Short
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +39,8 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -100,9 +106,10 @@ fun NoteApp(
             ModalNavigationDrawer(
                 drawerContent = {
                     MainNavigation(
-                        labels = labels.value,
+                        labels = labels.value ?: emptyList(),
                         currentMainArg = (uiState as? MainActivityUiState.Success)
-                            ?.userData?.noteDisplayCategory ?: NoteDisplayCategory(),
+                            ?.userData?.noteDisplayCategory
+                            ?: NoteDisplayCategory(),
                         onNavigation = {
                             viewModel.setMainData(it)
                             appState.navController.pop()
@@ -169,8 +176,24 @@ fun NoteApp(
                                     }
                                 },
                                 isVoiceSupport = supportVoice(),
-
                             )
+                        }
+                    },
+                    floatingActionButton = {
+                        if (isMain) {
+                            FloatingActionButton(
+                                onClick = {
+                                    appState.coroutineScope.launch {
+                                        val id = viewModel.insertNewNote()
+                                        appState.navController.navigateToDetail(DetailArg(id, -1, -1))
+                                    }
+                                },
+                                modifier = Modifier.testTag("main:add"),
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            ) {
+                                Icon(imageVector = NoteIcon.Add, contentDescription = "New note")
+                            }
                         }
                     },
 
@@ -246,72 +269,44 @@ fun NoteBottomBar(
     onAddImageNote: () -> Unit = {},
     isVoiceSupport: Boolean = false,
 ) {
-    BottomAppBar(
+    NavigationBar(
         modifier = modifier,
-        actions = {
-            IconButton(
-                modifier = Modifier.testTag("main:check"),
-                onClick = onAddCheckNote,
-            ) {
+        containerColor = MaterialTheme.colorScheme.surface,
+    ) {
+        NavigationBarItem(
+            selected = false,
+            onClick = onAddCheckNote,
+            icon = { Icon(imageVector = NoteIcon.CheckBox, contentDescription = null) },
+            label = { Text(text = "Checklist") },
+            modifier = Modifier.testTag("main:check"),
+        )
+        NavigationBarItem(
+            selected = false,
+            onClick = onAddDrawNote,
+            icon = { Icon(imageVector = NoteIcon.Brush, contentDescription = null) },
+            label = { Text(text = "Draw") },
+            modifier = Modifier.testTag("main:draw"),
+        )
+        NavigationBarItem(
+            selected = false,
+            onClick = onAddImageNote,
+            icon = { Icon(imageVector = NoteIcon.Image, contentDescription = null) },
+            label = { Text(text = "Photo") },
+            modifier = Modifier.testTag("main:image"),
+        )
+        NavigationBarItem(
+            selected = false,
+            onClick = if (isVoiceSupport) onAddVoiceNote else {{}},
+            icon = {
                 Icon(
-                    imageVector = NoteIcon.CheckBox,
-                    contentDescription = "add note check",
+                    imageVector = NoteIcon.KeyboardVoice,
+                    contentDescription = null,
+                    tint = if (isVoiceSupport) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
                 )
-            }
-
-            IconButton(
-                modifier = Modifier.testTag("main:draw"),
-                onClick = onAddDrawNote,
-            ) {
-                Icon(
-                    imageVector = NoteIcon.Brush,
-                    contentDescription = "add note drawing",
-                )
-            }
-
-            if (isVoiceSupport) {
-                IconButton(
-                    modifier = Modifier.testTag("main:voice"),
-                    onClick = onAddVoiceNote,
-                ) {
-                    Icon(
-                        imageVector = NoteIcon.KeyboardVoice,
-                        contentDescription = "add note voice",
-                    )
-                }
-            } else {
-                IconButton(
-                    modifier = Modifier.testTag("main:voice"),
-                    onClick = {}, // or show a tooltip
-                    enabled = false,
-                ) {
-                    Icon(
-                        imageVector = NoteIcon.KeyboardVoice,
-                        contentDescription = "add note voice (unavailable)",
-                        tint = Color.Gray, // or other visual cue
-                    )
-                }
-            }
-
-            IconButton(
-                modifier = Modifier.testTag("main:image"),
-                onClick = onAddImageNote,
-            ) {
-                Icon(
-                    imageVector = NoteIcon.Image,
-                    contentDescription = "add note image",
-                )
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                modifier = Modifier.testTag("main:add"),
-                onClick = onAddNewNote,
-                containerColor = MaterialTheme.colorScheme.primary,
-                elevation = FloatingActionButtonDefaults.elevation(),
-            ) {
-                Icon(imageVector = NoteIcon.Add, contentDescription = "add note")
-            }
-        },
-    )
+            },
+            label = { Text(text = "Voice") },
+            enabled = isVoiceSupport,
+            modifier = Modifier.testTag("main:voice"),
+        )
+    }
 }
