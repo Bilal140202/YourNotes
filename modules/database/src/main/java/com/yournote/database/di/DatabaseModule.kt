@@ -28,6 +28,7 @@ object DatabaseModule {
         @ApplicationContext context: Context,
     ): NoteDatabase {
         return Room.databaseBuilder(context, NoteDatabase::class.java, "ludoDb.db")
+            .fallbackToDestructiveMigration()
             .build()
 //        return Room.inMemoryDatabaseBuilder(context,LudoDatabase::class.java,)
 //            .build()
