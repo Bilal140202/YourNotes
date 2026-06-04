@@ -2,20 +2,20 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+The following versions of YourNotes are currently supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 1.2.x   | :white_check_mark: |
+| 1.1.x   | :white_check_mark: |
+| 1.0.x   | :x:                |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability in YourNotes, we encourage you to report it responsibly. Please follow these steps:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. **Do not** publicly disclose the vulnerability until it has been addressed.
+2. Open a [new issue](https://github.com/Bilal140202/YourNotes/issues/new) with the label `security` and include as much detail as possible about the vulnerability.
+3. Alternatively, you can contact the maintainer directly via [GitHub](https://github.com/Bilal140202).
+
+We will acknowledge receipt of your report within 48 hours and aim to provide a resolution or timeline within 7 days. Once the vulnerability is resolved, we will publicly credit your discovery (unless you prefer to remain anonymous).

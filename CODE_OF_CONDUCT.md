@@ -1,4 +1,4 @@
-# Code of Conduct for Notepad
+# Code of Conduct for YourNotes
 
 ## Our Pledge
 
@@ -40,8 +40,6 @@ Project maintainers who do not follow or enforce the Code of Conduct in good fai
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 1.4, available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-
-[Link to the Contributor Covenant version 2.1 if you prefer a more recent version: https://www.contributor-covenant.org/version/2/1/code_of_conduct/]
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
 
 For answers to common questions about this code of conduct, see https://www.contributor-covenant.org/faq
