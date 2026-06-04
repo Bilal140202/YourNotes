@@ -241,31 +241,6 @@ fun MainTopBar(
                         }
                     }
 
-                    NoteType.REMINDER -> {
-                        IconButton(
-                            onClick = onSearchClick,
-                            modifier = Modifier.testTag("main:topbar_search_button"),
-                        ) {
-                            Icon(
-                                imageVector = NoteIcon.Search,
-                                contentDescription = "search",
-                            )
-                        }
-                        IconButton(
-                            onClick = { onDisplayModeChange() },
-                            modifier = Modifier.testTag("main:topbar_display_mode_button"),
-                        ) {
-                            if (!isGrid) {
-                                Icon(imageVector = NoteIcon.GridView, contentDescription = "grid")
-                            } else {
-                                Icon(
-                                    imageVector = NoteIcon.ViewAgenda,
-                                    contentDescription = "column",
-                                )
-                            }
-                        }
-                    }
-
                     NoteType.LABEL -> {
                         var showDropDown by remember {
                             mutableStateOf(false)
@@ -341,7 +316,7 @@ fun MainTopBar(
                         }
                     }
 
-                    NoteType.ARCHIVE -> {
+                    NoteType.REMINDER, NoteType.ARCHIVE -> {
                         IconButton(
                             onClick = onSearchClick,
                             modifier = Modifier.testTag("main:topbar_search_button"),
@@ -372,10 +347,9 @@ fun MainTopBar(
     val labelText = selectState?.setOfSelected?.size?.toString()
         ?: when (noteDisplayCategory.noteType) {
             NoteType.NOTE -> "YourNotes"
-            NoteType.REMINDER -> stringResource(Rd.string.modules_designsystem_reminders)
+            NoteType.REMINDER, NoteType.ARCHIVE -> stringResource(Rd.string.modules_designsystem_archive)
             NoteType.LABEL -> labelName ?: ""
             NoteType.TRASH -> stringResource(Rd.string.modules_designsystem_trash)
-            NoteType.ARCHIVE -> stringResource(Rd.string.modules_designsystem_archive)
         }
     val color = if (selectState != null) {
         TopAppBarDefaults.topAppBarColors(

@@ -38,6 +38,20 @@ internal class MainViewModel
     private val addAllNoteUseCase: AddAllNoteUseCase,
 ) : ViewModel() {
 
+    // Safety: if user had Reminders view saved from previous version, redirect to Notes
+    init {
+        viewModelScope.launch {
+            userDataRepository.userData.collect { userData ->
+                if (userData.noteDisplayCategory.noteType == NoteType.REMINDER) {
+                    userDataRepository.setNoteDisplayCategory(
+                        NoteDisplayCategory(noteType = NoteType.NOTE),
+                    )
+                    return@collect
+                }
+            }
+        }
+    }
+
     private val selectedNotesState = MutableStateFlow<SelectState?>(null)
     private val currentNotepads = userDataRepository
         .userData

@@ -89,14 +89,6 @@ fun MainNavigation(
                 selected = currentMainArg.noteType == NoteType.NOTE,
                 onClick = { onNavigation(NoteDisplayCategory(noteType = NoteType.NOTE)) },
             )
-            NavigationDrawerItem(
-                icon = {
-                    Icon(imageVector = NoteIcon.Notification, contentDescription = "")
-                },
-                label = { Text(text = stringResource(Rd.string.modules_designsystem_reminders)) },
-                selected = currentMainArg.noteType == NoteType.REMINDER,
-                onClick = { onNavigation(NoteDisplayCategory(noteType = NoteType.REMINDER)) },
-            )
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
