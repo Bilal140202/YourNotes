@@ -1,5 +1,6 @@
 package com.yournote.about.navigation
 
+import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +12,6 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import com.yournote.about.AboutScreen
-import com.yournote.ui.FirebaseScreenLog
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
@@ -25,19 +25,28 @@ fun EntryProviderBuilder<NavKey>.aboutScreen(onBack: () -> Unit) {
             mutableStateOf("")
         }
         var version by remember {
-            mutableStateOf("")
+            mutableStateOf("1.0.0")
         }
-        FirebaseScreenLog(screen = "about_screen")
         LaunchedEffect(
             key1 = Unit,
             block = {
-                val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-                val datetime = Instant.fromEpochMilliseconds(pInfo.lastUpdateTime)
-                    .toLocalDateTime(TimeZone.currentSystemDefault()).date
-                lastUpdate = "${datetime.dayOfMonth} ${
-                    datetime.month.name.lowercase().replaceFirstChar { it.uppercaseChar() }
-                } ${datetime.year}"
-                version = pInfo?.versionName ?: "0.0.0"
+                try {
+                    val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+                    version = pInfo.versionName ?: "1.0.0"
+                    if (pInfo.lastUpdateTime > 0) {
+                        val datetime = Instant.fromEpochMilliseconds(pInfo.lastUpdateTime)
+                            .toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        lastUpdate = "${datetime.dayOfMonth} ${
+                            datetime.month.name.lowercase().replaceFirstChar { it.uppercaseChar() }
+                        } ${datetime.year}"
+                    } else {
+                        lastUpdate = "New Install"
+                    }
+                } catch (e: Exception) {
+                    Log.e("AboutScreen", "Error loading app info", e)
+                    version = "1.0.0"
+                    lastUpdate = "New Install"
+                }
             },
         )
 

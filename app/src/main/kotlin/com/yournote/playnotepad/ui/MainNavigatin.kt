@@ -26,9 +26,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yournote.designsystem.icon.NoteIcon
@@ -82,8 +80,9 @@ fun MainNavigation(
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = Rd.drawable.modules_designsystem_app_icon),
+                        imageVector = NoteIcon.Description,
                         contentDescription = "note",
+                        tint = MaterialTheme.colorScheme.primary,
                     )
                 },
                 label = { Text(text = stringResource(Rd.string.modules_designsystem_notes)) },

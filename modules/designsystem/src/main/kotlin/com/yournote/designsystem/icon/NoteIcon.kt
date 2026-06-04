@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.ExpandLess
@@ -49,6 +50,7 @@ import com.yournote.designsystem.R
 object NoteIcon {
 
     val RestoreFromTrash = Icons.Outlined.Restore
+    val Description = Icons.Outlined.Description
     val Edit = Icons.Outlined.Edit
     val ViewAgenda = Icons.Outlined.ViewAgenda
     val Menu = Icons.Outlined.Menu
