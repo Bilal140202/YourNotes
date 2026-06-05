@@ -38,3 +38,10 @@ local.properties
 /feature/build/
 /.idea/runConfigurations/Generate_Baseline_Profile.xml
 /modules/build
+
+# Signing keys (NEVER commit these)
+*.jks
+*.keystore
+*.jks.asc
+keystore.properties
+release-key.properties
