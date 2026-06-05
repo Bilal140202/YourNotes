@@ -17,10 +17,11 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("../yournotes-release.jks")
-            storePassword = "yournotes2025"
-            keyAlias = "yournotes"
-            keyPassword = "yournotes2025"
+            val ksFile = System.getenv("KEYSTORE_FILE") ?: "yournotes-release.jks"
+            storeFile = file(ksFile)
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("KEY_ALIAS") ?: "yournotes"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: ""
         }
     }
 

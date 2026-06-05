@@ -63,11 +63,21 @@
     <string name="modules_designsystem_settings">Settings</string>
     <string name="modules_designsystem_enter_text">Enter text</string>
     <string name="modules_designsystem_create">Create</string>
-    <string name="modules_designsystem_about_me">YourNotes is an open source note-taking app. Licensed under GPL-3.0.</string>
+    <string name="modules_designsystem_about_me">YourNotes — a private, offline note-taking app.
+
+Built on open source foundations (GPL-3.0).
+Original project by mshdabiola.
+Redesigned and maintained by Bilal Ansari.
+
+ansaribilal.com</string>
     <string name="modules_designsystem_last_update">Last Update</string>
     <string name="modules_designsystem_version">Version</string>
     <string name="modules_designsystem_play_notepad">YourNotes</string>
-    <string name="modules_designsystem_terms_and_condition">Privacy Policy: YourNotes collects no data. All files stay on your device.</string>
+    <string name="modules_designsystem_terms_and_condition">Privacy Policy: YourNotes collects zero data.
+No internet permission. No accounts. No tracking.
+All files stay on your device.
+
+https://bilal140202.github.io/YourNotes/privacy</string>
 
     <string name="modules_designsystem_close">Close</string>
     <string name="modules_designsystem_daynight_mode">DayNight mode</string>

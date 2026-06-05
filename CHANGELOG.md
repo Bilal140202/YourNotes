@@ -45,8 +45,7 @@ All notable changes to YourNotes will be documented in this file.
 
 ### Added
 - Initial release of YourNotes
-- Forked from Play NotePad with complete rebrand
-- Package renamed to `com.yournote.notepad`
+- Package: `com.yournote.notepad`
 - All build-logic convention plugins updated
 - Updated app name, icons, and resources
 - Material 3 theming
