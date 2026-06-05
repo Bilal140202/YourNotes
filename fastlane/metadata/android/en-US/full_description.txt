@@ -1,17 +1,37 @@
-Play NotePad: Organize Your Life in Style
+YourNotes — Your thoughts, completely private.
 
-Stay on top of your personal and professional life with Play NotePad, a feature-rich note-taking app designed for efficiency.
+No account. No cloud. No tracking. Everything stays on your device, always.
 
-MAIN FEATURES
+POWERFUL NOTES
+- Rich text editing with clean, intuitive interface
+- Checklists for tasks and to-dos
+- Background images and color coding
+- Draw and sketch freehand diagrams
+- Pin important notes to the top
 
-* Effortless Note Taking: Create and edit text notes, attach photos and drawings, or record audio for on-the-go capture.
-* Enhanced Organization: Categorize notes with labels, set reminders for deadlines, and prioritize tasks with pinning.
-* Visual Appeal: Personalize your note backgrounds with colors and images, and choose between list or column view for easy navigation.
-* Offline Access: Never lose your notes, even without an internet connection.
-* Seamless Collaboration: Share notes via email or messaging for effective teamwork.
+CAPTURE EVERYTHING
+- Audio notes — record and play back
+- Photo attachments — camera or gallery
+- Drawing mode — annotate with freehand sketches
 
-Play NotePad is more than just a notepad - it's your essential companion for managing and organizing your notes in style.
+STAY ORGANIZED
+- Labels for categorization
+- Smart search by keyword, label, or type
+- List and column view layouts
+- Archive completed tasks
 
+NEVER MISS ANYTHING
+- Reminders with notifications
+- Lazy Mode — auto-scroll for hands-free reading
 
-Source code:
-http://github.com/mshdabiola/notepad
+BUILT FOR PRIVACY
+- Zero internet permission — verified offline
+- No account required
+- No ads, no trackers, no data collection
+- Your notes never leave your device
+
+MODERN DESIGN
+- Material 3 design system
+- Beautiful purple theme
+- Edge-to-edge immersive experience
+- Supports Android 15

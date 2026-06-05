@@ -54,7 +54,11 @@
     <string name="modules_designsystem_settings">Настройки</string>
     <string name="modules_designsystem_enter_text">Введите текст</string>
     <string name="modules_designsystem_create">Создать</string>
-    <string name="modules_designsystem_about_me">YourNotes — приложение для заметок с открытым исходным кодом.</string>
+    <string name="modules_designsystem_about_me">YourNotes — приложение для заметок с полным конфиденциальностью. Работает офлайн.
+
+Разработано Bilal Ansari.
+
+ansaribilal.com</string>
     <string name="modules_designsystem_last_update">Последнее обновление</string>
     <string name="modules_designsystem_version">Версия</string>
     <string name="modules_designsystem_play_notepad">YourNotes</string>

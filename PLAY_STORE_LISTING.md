@@ -43,8 +43,6 @@ MODERN DESIGN
 - Edge-to-edge immersive experience
 - Supports Android 15
 
-YourNotes is open source (GPL-3.0).
-
 ## Privacy Policy URL
 https://bilal140202.github.io/YourNotes/privacy
 

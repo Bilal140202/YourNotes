@@ -1,6 +1,6 @@
 /*
  * YourNotes
- * Licensed under GPL-3.0
+ * Copyright (c) 2026 Bilal Ansari. All rights reserved.
  */
 
 package com.yournote.data.util

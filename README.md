@@ -133,7 +133,7 @@ Found a bug or have a feature request? [Open an issue](https://github.com/Bilal1
 
 ## License
 
-YourNotes is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
+All rights reserved. See the [LICENSE](LICENSE) file for details.
 
 ## Author
 

@@ -65,9 +65,7 @@
     <string name="modules_designsystem_create">Create</string>
     <string name="modules_designsystem_about_me">YourNotes — a private, offline note-taking app.
 
-Built on open source foundations (GPL-3.0).
-Original project by mshdabiola.
-Redesigned and maintained by Bilal Ansari.
+Designed and developed by Bilal Ansari.
 
 ansaribilal.com</string>
     <string name="modules_designsystem_last_update">Last Update</string>
