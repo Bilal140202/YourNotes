@@ -99,7 +99,7 @@ fun EntryProviderBuilder<NavKey>.main(
                 val intent = ShareCompat.IntentBuilder(context)
                     .setText(notePads.toString())
                     .setType("text/*")
-                    .setChooserTitle("From Notepad")
+                    .setChooserTitle("From YourNotes")
                     .createChooserIntent()
                 context.startActivity(Intent(intent))
             },

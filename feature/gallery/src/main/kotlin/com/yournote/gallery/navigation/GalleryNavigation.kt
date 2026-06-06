@@ -51,7 +51,7 @@ fun EntryProviderBuilder<NavKey>.gallery(
             val intent = ShareCompat.IntentBuilder(context)
                 .setType("image/*")
                 .setStream(uri)
-                .setChooserTitle("NotePad")
+                .setChooserTitle("YourNotes")
                 .createChooserIntent()
 
             context.startActivity(intent)

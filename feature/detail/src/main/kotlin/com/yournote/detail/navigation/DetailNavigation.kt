@@ -151,7 +151,7 @@ fun EntryProviderBuilder<NavKey>.detailScreen(
             val intent = ShareCompat.IntentBuilder(context)
                 .setText(detailState.notePad.note.title)
                 .setSubject(detailState.notePad.note.detail)
-                .setChooserTitle("From Notepad")
+                .setChooserTitle("From YourNotes")
 
             if (images.isNotEmpty()) intent.setType("image/*") else intent.setType("text/*")
             images.forEach {
